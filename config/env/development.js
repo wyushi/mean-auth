@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://localhost/learn-mean-auth-dev',
+	db: 'mongodb://mongo:27017/learn-mean-auth-dev',
 	app: {
 		title: 'learn-mean-auth - Development Environment'
 	},

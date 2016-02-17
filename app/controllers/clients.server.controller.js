@@ -16,7 +16,6 @@ exports.create = function(req, res) {
   client.name = req.body.name;
   client.id = req.body.id;
   client.secret = req.body.secret;
-  client.userId = req.user._id;
 
   client.save(function(err) {
     if (err){

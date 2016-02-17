@@ -13,3 +13,14 @@ ls
 cd ~
 ls
 exit
+cd /home/dev/
+npm install
+grunt
+cd /home/dev/
+ls
+pwd
+ls
+cd ~
+ls
+grunt
+exit
