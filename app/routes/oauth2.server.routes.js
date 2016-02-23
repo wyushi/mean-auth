@@ -1,6 +1,8 @@
 'use strict';
 
-var oauth2Controller = require('../../app/controllers/oauth2.server.controller');
+var users = require('../../app/controllers/users.server.controller'),
+    oauth2Controller = require('../../app/controllers/oauth2.server.controller'),
+    requireRole = require('./utils/roles');
 
 module.exports = function(app) {
 

@@ -19,6 +19,9 @@ exports.signup = function(req, res) {
 	// Init Variables
 	var user = new User(req.body);
 	var message = null;
+  if (req.body.isOauthClient) {
+    user.setOauthClient();
+  }
 
 	// Add missing user fields
 	user.provider = 'local';

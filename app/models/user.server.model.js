@@ -71,7 +71,7 @@ var UserSchema = new Schema({
 	roles: {
 		type: [{
 			type: String,
-			enum: ['user', 'admin']
+			enum: ['user', 'admin', 'oauthClient']
 		}],
 		default: ['user']
 	},
@@ -119,6 +119,10 @@ UserSchema.methods.hashPassword = function(password) {
  */
 UserSchema.methods.authenticate = function(password) {
 	return this.password === this.hashPassword(password);
+};
+
+UserSchema.methods.setOauthClient = function () {
+  this.roles = ['oauthClient'];
 };
 
 /**
