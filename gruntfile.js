@@ -3,12 +3,12 @@
 module.exports = function(grunt) {
 	// Unified Watch Object
 	var watchFiles = {
-		serverViews: ['app/views/**/*.*'],
+		serverViews: [], //['app/views/**/*.*'],
 		serverJS: ['gruntfile.js', 'server.js', 'config/**/*.js', 'app/**/*.js'],
-		clientViews: ['public/modules/**/views/**/*.html'],
-		clientJS: ['public/js/*.js', 'public/modules/**/*.js'],
-		clientCSS: ['public/modules/**/*.css'],
-		mochaTests: ['app/tests/**/*.js']
+		clientViews: [], //['public/modules/**/views/**/*.html'],
+		clientJS: [], //['public/js/*.js', 'public/modules/**/*.js'],
+		clientCSS: [], //['public/modules/**/*.css'],
+		mochaTests: [],//['app/tests/**/*.js']
 	};
 
 	// Project Configuration
@@ -161,7 +161,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['lint', 'concurrent:default']);
 
 	// Debug task.
-	grunt.registerTask('debug', ['lint', 'concurrent:debug']);
+	grunt.registerTask('debug', ['concurrent:debug']);
 
 	// Secure task(s).
 	grunt.registerTask('secure', ['env:secure', 'lint', 'concurrent:default']);

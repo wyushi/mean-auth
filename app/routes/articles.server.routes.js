@@ -10,8 +10,11 @@ var users = require('../../app/controllers/users.server.controller'),
 module.exports = function(app) {
 	// Article Routes
 	app.route('/articles')
-		.get(articles.list)
+		.get(users.requiresLogin, articles.list)
 		.post(users.requiresLogin, requireRole('user'), articles.create);
+
+  app.route('/api/articles')
+    .get(users.isAuthenticated, articles.list);
 
 	app.route('/articles/:articleId')
 		.get(articles.read)

@@ -6,7 +6,6 @@
 var mongoose = require('mongoose'),
     oauth2orize = require('oauth2orize'),
     User = mongoose.model('User'),
-    Client = mongoose.model('Client'),
     Token = mongoose.model('Token'),
     Code = mongoose.model('Code'),
     _ = require('lodash');
@@ -27,8 +26,6 @@ function uid(len) {
   return buf.join('');
 }
 
-
-
 var server = oauth2orize.createServer();
 
 server.serializeClient(function(client, callback) {
@@ -37,7 +34,8 @@ server.serializeClient(function(client, callback) {
 
 // Register deserialization function
 server.deserializeClient(function(id, callback) {
-  Client.findOne({ _id: id }, function (err, client) {
+  console.log('id: ' + id);
+  User.findOne({ _id: id }, function (err, client) {
     if (err) { return callback(err); }
     return callback(null, client);
   });
@@ -45,6 +43,7 @@ server.deserializeClient(function(id, callback) {
 
 server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, callback) {
   // Create a new authorization code
+  console.log('grant get called');
   var code = new Code({
     value: uid(16),
     clientId: client._id,
@@ -90,7 +89,9 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, ca
 
 exports.authorization = [
   server.authorization(function(clientId, redirectUri, callback) {
-    Client.findOne({ id: clientId }, function (err, client) {
+    console.log('--- authorization get called ---');
+    console.log('---' + clientId + ' ---');
+    User.findOne({ _id: clientId }, function (err, client) {
       if (err) { return callback(err); }
       return callback(null, client, redirectUri);
     });

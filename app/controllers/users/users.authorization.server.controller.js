@@ -5,6 +5,7 @@
  */
 var _ = require('lodash'),
 	mongoose = require('mongoose'),
+  passport = require('passport'),
 	User = mongoose.model('User');
 
 /**
@@ -33,6 +34,8 @@ exports.requiresLogin = function(req, res, next) {
 
 	next();
 };
+
+exports.isAuthenticated = passport.authenticate(['bearer'], { session: false });
 
 /**
  * User authorizations routing middleware

@@ -7,10 +7,10 @@ var users = require('../../app/controllers/users.server.controller'),
 module.exports = function(app) {
 
   app.route('/oauth2/authorize')
-    .get(oauth2Controller.authorization)
-    .post(oauth2Controller.decision);
+    .get(users.requiresLogin, requireRole('user'), oauth2Controller.authorization)
+    .post(users.requiresLogin, requireRole('user'), oauth2Controller.decision);
 
   app.route('/oauth2/token')
-    .post(oauth2Controller.token);
+    .post(users.requiresLogin, requireRole('oauthClient'), oauth2Controller.token);
 
 };
