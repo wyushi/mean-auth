@@ -35,7 +35,7 @@ exports.requiresLogin = function(req, res, next) {
 	next();
 };
 
-exports.isAuthenticated = passport.authenticate(['bearer'], { session: false });
+exports.isAuthenticated = passport.authenticate(['bearer', 'basic'], { session: false });
 
 /**
  * User authorizations routing middleware
