@@ -42,8 +42,13 @@ server.deserializeClient(function(id, callback) {
 });
 
 server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, callback) {
+  console.log('----------grant-----------');
+  console.log('client:' + client);
+  console.log('user:' + user);
+  console.log('redirectUri:' + redirectUri);
+  console.log('ares:' + ares);  
+
   // Create a new authorization code
-  console.log('grant get called');
   var code = new Code({
     value: uid(16),
     clientId: client._id,
@@ -60,11 +65,17 @@ server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, ca
 }));
 
 server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, callback) {
+  console.log('----------exchange-----------');
+  console.log('client:' + client);
+  console.log('code:' + code);
+  console.log('redirectUri:' + redirectUri);
+
+
   Code.findOne({ value: code }, function (err, authCode) {
-    console.log(authCode);
+    console.log('authCode:' + authCode);
     if (err) { return callback(err); }
-    if (authCode === undefined) { return callback(null, false); }
-    // if (client._id.toString() !== authCode.clientId) { return callback(null, false); }
+    if (!authCode) { return callback(null, false); }
+    if (client._id.toString() !== authCode.clientId) { return callback(null, false); }
     if (redirectUri !== authCode.redirectUri) { return callback(null, false); }
     // Delete auth code now that it has been used
     authCode.remove(function (err) {
@@ -89,15 +100,13 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, ca
 
 exports.authorization = [
   server.authorization(function(clientId, redirectUri, callback) {
-    console.log('--- authorization get called ---');
     console.log('---' + clientId + ' ---');
-    User.findOne({ _id: clientId }, function (err, client) {
+    User.findOne({ username: clientId }, function (err, client) {
       if (err) { return callback(err); }
       return callback(null, client, redirectUri);
     });
   }),
   function(req, res){
-    // res.send({ transactionID: req.oauth2.transactionID, user: req.user, client: req.oauth2.client });
     res.render('dialog', { 
       transactionID: req.oauth2.transactionID, 
       user: req.user, 

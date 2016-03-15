@@ -11,6 +11,7 @@ module.exports = function(app) {
     .post(users.requiresLogin, requireRole('user'), oauth2Controller.decision);
 
   app.route('/oauth2/token')
-    .post(users.requiresLogin, requireRole('oauthClient'), oauth2Controller.token);
+    .post(users.isAuthenticated, requireRole('oauthClient'), oauth2Controller.token);
 
 };
+
