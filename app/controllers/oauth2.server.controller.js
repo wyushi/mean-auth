@@ -34,7 +34,6 @@ server.serializeClient(function(client, callback) {
 
 // Register deserialization function
 server.deserializeClient(function(id, callback) {
-  console.log('id: ' + id);
   User.findOne({ _id: id }, function (err, client) {
     if (err) { return callback(err); }
     return callback(null, client);
@@ -42,11 +41,11 @@ server.deserializeClient(function(id, callback) {
 });
 
 server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, callback) {
-  console.log('----------grant-----------');
-  console.log('client:' + client);
-  console.log('user:' + user);
-  console.log('redirectUri:' + redirectUri);
-  console.log('ares:' + ares);  
+  // console.log('----------grant-----------');
+  // console.log('client:' + client);
+  // console.log('user:' + user);
+  // console.log('redirectUri:' + redirectUri);
+  // console.log('ares:' + ares);  
 
   // Create a new authorization code
   var code = new Code({
@@ -65,14 +64,12 @@ server.grant(oauth2orize.grant.code(function(client, redirectUri, user, ares, ca
 }));
 
 server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, callback) {
-  console.log('----------exchange-----------');
-  console.log('client:' + client);
-  console.log('code:' + code);
-  console.log('redirectUri:' + redirectUri);
-
+  // console.log('----------exchange-----------');
+  // console.log('client:' + client);
+  // console.log('code:' + code);
+  // console.log('redirectUri:' + redirectUri);
 
   Code.findOne({ value: code }, function (err, authCode) {
-    console.log('authCode:' + authCode);
     if (err) { return callback(err); }
     if (!authCode) { return callback(null, false); }
     if (client._id.toString() !== authCode.clientId) { return callback(null, false); }
@@ -100,7 +97,6 @@ server.exchange(oauth2orize.exchange.code(function(client, code, redirectUri, ca
 
 exports.authorization = [
   server.authorization(function(clientId, redirectUri, callback) {
-    console.log('---' + clientId + ' ---');
     User.findOne({ username: clientId }, function (err, client) {
       if (err) { return callback(err); }
       return callback(null, client, redirectUri);
